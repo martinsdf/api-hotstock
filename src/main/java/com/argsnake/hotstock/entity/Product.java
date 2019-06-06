@@ -6,10 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -24,27 +22,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity(name="user")
-public class User implements Serializable {
+@Entity(name="product")
+public class Product implements Serializable {
 
-	private static final long serialVersionUID = -7563472425587606588L;
+	private static final long serialVersionUID = 3878946051197888092L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
     @NotEmpty
-    private String username;
+    private String name;
 
     @NotEmpty
-    @JsonIgnore
-    private String password;
+    private String barcode;
 
-    @NotEmpty
-    private String role;
 
-    public User(Long id) {
+    public Product(Long id) {
         this.id = id;
     }
 }

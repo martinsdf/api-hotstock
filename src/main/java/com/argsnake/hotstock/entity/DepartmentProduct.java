@@ -1,15 +1,16 @@
 package com.argsnake.hotstock.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -24,27 +25,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity(name="user")
-public class User implements Serializable {
+@Entity(name="department_product")
+public class DepartmentProduct implements Serializable {
 
-	private static final long serialVersionUID = -7563472425587606588L;
+	private static final long serialVersionUID = 4576962134172918455L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
     @NotEmpty
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "product")
+    private Product product;
 
     @NotEmpty
-    @JsonIgnore
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "department")
+    private Department department;
 
     @NotEmpty
-    private String role;
+    private BigDecimal quantity;
 
-    public User(Long id) {
+    public DepartmentProduct(Long id) {
         this.id = id;
     }
 }

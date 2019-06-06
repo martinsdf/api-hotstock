@@ -1,15 +1,21 @@
 package com.argsnake.hotstock.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -24,27 +30,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity(name="user")
-public class User implements Serializable {
+@Entity(name="order")
+public class Order implements Serializable {
 
-	private static final long serialVersionUID = -7563472425587606588L;
+	private static final long serialVersionUID = -157046677501105543L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
     @NotEmpty
-    private String username;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user;
 
     @NotEmpty
-    @JsonIgnore
-    private String password;
+    private String status;
 
     @NotEmpty
-    private String role;
+    @Column(name="create_date")
+    private Date createDate;
 
-    public User(Long id) {
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderProduct> items;
+
+
+    public Order(Long id) {
         this.id = id;
     }
 }
